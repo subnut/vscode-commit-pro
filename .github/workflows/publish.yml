@@ -40,19 +40,3 @@ jobs:
       - name: reference extension
         id: referenceExtension
         run: echo "::set-output name=vsixPath::$(find . -name 'vscode-commit-pro-extension-*.vsix')"
-
-      - name: publish to open vsx registry
-        uses: HaaLeo/publish-vscode-extension@v1
-        with:
-          pat: ${{ secrets.OPEN_VSX_TOKEN }}
-          extensionFile: ${{ steps.referenceExtension.outputs.vsixPath }}
-        continue-on-error: true # workflow might run without creating a new version, so publishing fails
-
-      - name: publish to visual studio marketplace
-        uses: HaaLeo/publish-vscode-extension@v1
-        with:
-          pat: ${{ secrets.VS_MARKETPLACE_TOKEN }}
-          registryUrl: https://marketplace.visualstudio.com
-          extensionFile: ${{ steps.referenceExtension.outputs.vsixPath }}
-        continue-on-error: true # workflow might run without creating a new version, so publishing fails
-
